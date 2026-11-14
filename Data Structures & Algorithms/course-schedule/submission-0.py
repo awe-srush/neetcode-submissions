@@ -1,0 +1,25 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = [[] for _ in range(numCourses)]
+        indegree = [0] * (numCourses)
+
+        for a, b in prerequisites:
+            graph[b].append(a)
+            indegree[a] += 1
+
+        taken = 0
+        q = deque(i for i in range(numCourses) if indegree[i] == 0)
+        while q:
+            c = q.popleft()
+            taken += 1
+            for nxt in graph[c]:
+                indegree[nxt] -= 1
+                if indegree[nxt] == 0:
+                    q.append(nxt)
+            
+        return taken == numCourses   
+
+        
+    
+
+        
